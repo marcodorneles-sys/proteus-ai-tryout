@@ -2,18 +2,18 @@
 
 ## Module Reference
 This feature belongs to the **Smart Downtime Entry Module**
-# path: _docs\domain\modules\smart_downtime_entry.md
+# path: docs\domain\modules\smart_downtime_entry.md
 
 ## ADR
 Arquictecture Decision Record Reference
-# path: _docs\adr\0001-core-technology-runtime-stack.md
+# path: docs\adr\0001-core-technology-runtime-stack.md
 
 ## Overview
 The **SDE Visual Timeline** is the primary operational interface used by the Shop-floor Operator (Persona P-01) to interact with machine data. It replaces complex, legacy drop-down forms with a visual, wizard-like approach designed for noisy industrial environments.
 
 ## Persona
 Shop-floor Operator (Persona P-01)
-# path: _docs\domain\personas.md
+# path: docs\domain\personas.md
 
 ## Scope
 One machine per timeline. The persona driving this feature (P-01) works at a kiosk dedicated to a single line, so the timeline is single-machine end-to-end. Multi-machine / multi-line review surfaces are a separate concern owned by a Process Lead (P-02) feature and are deliberately out of scope here.

@@ -2,18 +2,18 @@
 
 ## Module Reference
 This feature belongs to the **Smart Downtime Entry Module**.
-# path: _docs\domain\modules\smart_downtime_entry.md
+# path: docs\domain\modules\smart_downtime_entry.md
 
 ## ADR
 Arquictecture Decision Record Reference
-# path: _docs\adr\0001-core-technology-runtime-stack.md
+# path: docs\adr\0001-core-technology-runtime-stack.md
 
 ## Overview
 **Downtime Reclassification** is the feature that allows operators to interact with the raw machine stops (red segments) captured on the timeline, actively assigning human context and root causes to automated machine events. 
 
 ## Persona
 Shop-floor Operator (Persona P-01)
-# path: _docs\domain\personas.md
+# path: docs\domain\personas.md
 
 ## Key Capabilities
 *   **Root Cause Allocation:** Operators select an unclassified downtime entry from the timeline and choose a standardized business reason (e.g., from a downtime catalog) to correctly allocate the time.
