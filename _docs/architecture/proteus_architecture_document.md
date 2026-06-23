@@ -1,4 +1,4 @@
-# Project Proteus Architecture — Caveman Markdown
+# Project Proteus Architecture
 
 _Source: Project Proteus Architecture Document.docx_  
 _Mode: caveman skill — short, dense, no fluff. Technical meaning preserved.
