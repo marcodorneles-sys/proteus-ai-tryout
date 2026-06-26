@@ -13,7 +13,7 @@ This skill is **read-only and reporting-only**. It never edits `specify.md`, the
 
 Resolve these before scoring. Paths/refs are passed as arguments or taken from the pipeline context.
 
-<inputs>
+### Inputs
 - **Subject under review:** `specify.md` (the GitHub Spec Kit output).
 - **Direct parents (authoritative for intended behavior):**
   - The **implementation ticket / Work Item (WI-xxx)** the spec was generated from.
@@ -23,7 +23,7 @@ Resolve these before scoring. Paths/refs are passed as arguments or taken from t
   - `GLOSSARY.md` — canonical terminology.
   - `PERSONAS.md` — personas and IDs (`P-xx`) for traceability.
   - Figma / design system references (if applicable) — for UI/UX consistency.
-</inputs>
+
 
 If any **direct parent** (specify.md, ticket, or feature doc) cannot be loaded, stop and emit verdict `BLOCKED_INPUT_MISSING` naming the missing input. Missing global-context files degrade the relevant category to a capped score and are recorded as findings — they do not abort the run.
 
@@ -45,14 +45,14 @@ Independently list the behaviors, entities, rules, and constraints that `specify
 
 Cross-reference the two lists. Classify each checklist item and each spec element as exactly one of:
 
-<classifications>
+### Classifications
 - **Covered** — present in specify.md and faithful to intent.
 - **Partial** — present but incomplete, weakened, or under-specified.
 - **Missing** — required by inputs, absent from specify.md.
 - **Distorted** — present but contradicts, alters, or misrepresents the intended requirement (wrong threshold, inverted rule, changed scope, altered persona/permission).
 - **Invented** — present in specify.md with no basis in any input (hallucinated behavior, scope creep, fabricated AC, invented entity/rule).
 - **Inconsistent** — violates glossary terms, persona IDs, business rules, or contradicts another part of specify.md.
-</classifications>
+
 
 **Every classification that is not "Covered" becomes a finding, and every finding MUST cite evidence** — a short quote and location from the source AND from specify.md (or "absent"). Do not record a finding you cannot cite. Do not infer intent the inputs do not state; if the spec is ambiguous, classify as Partial and say what is unclear, rather than guessing.
 
@@ -70,7 +70,7 @@ Write the JSON scorecard and the Markdown report (schemas below). Output both; m
 
 Per-category 0–100. Overall = weighted sum (weights tunable by the team; defaults below sum to 100).
 
-###Scoring-rubric
+### Scoring-rubric
 | Category | Weight | Scores how well specify.md… |
 |---|---|---|
 | Completeness / Coverage | 25 | represents every requirement, AC, FR, and referenced BR from the ticket and feature doc (penalize Missing/Partial) |
@@ -88,17 +88,14 @@ Scoring guidance: start each category at 100 and deduct per finding by severity 
 
 ## Severity levels
 
-<severity-levels>
 - **Critical** — would cause incorrect implementation if not fixed: a Missing or Distorted core behavior, an Invented in-scope behavior, a violated business rule, or a wrong NFR/permission/data-residency constraint.
 - **Major** — a meaningful gap, ambiguity, or inconsistency that needs BA/PO input but does not by itself corrupt core behavior.
 - **Minor** — low-risk: cosmetic wording, a non-canonical term with obvious meaning, or a small clarity issue.
-</severity-levels>
 
 ---
 
 ## Verdict bands
 
-<verdict-bands>
 Apply in order; the first matching rule wins.
 
 1. Any required direct-parent input missing → **BLOCKED_INPUT_MISSING**.
@@ -108,13 +105,13 @@ Apply in order; the first matching rule wins.
 5. Overall score **≥ 85** and no Critical/Major findings → **PROCEED**.
 
 Bands and weights are defaults — keep them in one place so the team can calibrate without editing the rest of the skill.
-</verdict-bands>
+
 
 ---
 
 ## JSON output schema
 
-<json-output-schema>
+<!-- <json-output-schema> -->
 ```json
 {
   "skill": "spec-check",
@@ -166,7 +163,7 @@ Bands and weights are defaults — keep them in one place so the team can calibr
   ]
 }
 ```
-</json-output-schema>
+<!-- </json-output-schema> -->
 
 Every entry in `findings[]` must carry non-empty `evidence_source` and `evidence_spec`. Each `categories[].comment` is the per-score comment the requester asked for — concrete and citing the findings that drove the score.
 
@@ -221,7 +218,7 @@ Every entry in `findings[]` must carry non-empty `evidence_source` and `evidence
 
 ## Reliability principles (apply throughout)
 
-<principles>
+<!-- <principles> -->
 - **Evidence or it didn't happen.** No finding without a citation from both sides. This is the main guard against the checker inventing its own issues.
 - **Report, never fix.** Do not edit specify.md or requirements. Output analysis only.
 - **Conservative scoring.** When intent is ambiguous, prefer Partial + a finding over assuming Covered. Deduct when unsure.
@@ -229,11 +226,11 @@ Every entry in `findings[]` must carry non-empty `evidence_source` and `evidence
 - **Separate the two passes.** Build the requirement checklist (step 2) and the spec inventory (step 3) independently before cross-referencing, so gaps and inventions are both caught.
 - **Don't reward verbosity.** Extra detail in specify.md that isn't traceable to inputs lowers the Absence-of-invention score; it is not a bonus.
 - **Stay in lane.** This skill judges fidelity of specify.md to its inputs. It does not judge whether the original requirements are themselves good — that is the BA/PO's job upstream.
-</principles>
+<!-- </principles> -->
 
 ## Process-reliability recommendations (for the team's framework)
-
-<framework-notes>
+### Framework notes
+<!-- <framework-notes> -->
 - **Calibrate the bands.** Run spec-check on a labelled set of past specs (known good / known bad) and tune weights and band thresholds until the verdict matches human judgment before trusting it to gate.
 - **Spot-check PROCEED verdicts.** Have a BA review a random sample of auto-PROCEED specs periodically to detect drift; feed misses back into calibration.
 - **Always human-review BLOCK and REVIEW_RECOMMENDED.** Never auto-rework on a BLOCK without a person confirming the findings.
@@ -241,4 +238,4 @@ Every entry in `findings[]` must carry non-empty `evidence_source` and `evidence
 - **Version the rubric.** Bump `version` when weights/bands/categories change; old results stay interpretable.
 - **Close the loop with upstream skills.** Recurring Missing/Distorted findings usually mean the feature doc or ticket (from /to-prd, /to-issues) was thin — fix the source, not just the spec.
 - **Idempotent + non-interactive.** Same inputs → same output; no prompts. This is what makes it safe to run automatically on every spec.
-</framework-notes>
+<!-- </framework-notes> -->
