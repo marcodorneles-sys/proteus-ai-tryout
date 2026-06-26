@@ -171,7 +171,7 @@ Every entry in `findings[]` must carry non-empty `evidence_source` and `evidence
 
 ## Markdown report template
 
-<markdown-report-template>
+<!-- <markdown-report-template> -->
 ```markdown
 # Spec Check Report — <feature / WI-xxx>
 
@@ -212,7 +212,7 @@ Every entry in `findings[]` must carry non-empty `evidence_source` and `evidence
 ## Recommended action
 <One paragraph: proceed, or what the BA/PO must resolve before implementation.>
 ```
-</markdown-report-template>
+<!-- </markdown-report-template> -->
 
 ---
 
