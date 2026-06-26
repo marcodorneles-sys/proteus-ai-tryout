@@ -70,7 +70,7 @@ Write the JSON scorecard and the Markdown report (schemas below). Output both; m
 
 Per-category 0–100. Overall = weighted sum (weights tunable by the team; defaults below sum to 100).
 
-<scoring-rubric>
+###Scoring-rubric
 | Category | Weight | Scores how well specify.md… |
 |---|---|---|
 | Completeness / Coverage | 25 | represents every requirement, AC, FR, and referenced BR from the ticket and feature doc (penalize Missing/Partial) |
@@ -80,7 +80,7 @@ Per-category 0–100. Overall = weighted sum (weights tunable by the team; defau
 | Traceability | 10 | preserves and correctly maps source IDs (`FR-xxx`, `F-xx.y`, `BR-xxx`, `P-xx`, parent WI) |
 | Testability & clarity | 10 | states requirements unambiguously and measurably enough to implement and test |
 | NFR & security/permission coverage | 10 | carries over non-functional, security, data-residency, and RBAC/permission requirements |
-</scoring-rubric>
+
 
 Scoring guidance: start each category at 100 and deduct per finding by severity (Critical −40, Major −15, Minor −5 as a default; floor at 0). Be conservative — when unsure, deduct. Coverage and Absence-of-invention should reflect the proportion of items correctly handled, not a vibe.
 
