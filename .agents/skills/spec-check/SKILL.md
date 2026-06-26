@@ -1,20 +1,20 @@
 ---
 name: spec-check
-description: Compare a generated specify.md against its source implementation ticket and feature requirements (and the global PRD, glossary, personas, and business rules), score how faithfully the spec reflects the intended requirements, and flag gaps, distortions, invented content, and inconsistencies that would distort implementation correctness. Produces a JSON scorecard plus a Markdown report and a verdict (PROCEED / REVIEW_RECOMMENDED / BLOCK) used to decide whether a BA/PO must review before implementation. Use after GitHub Spec Kit generates specify.md and before code generation. Runs non-interactively — asks no questions.
+description: Compare a generated spec.md against its source implementation ticket and feature requirements (and the global PRD, glossary, personas, and business rules), score how faithfully the spec reflects the intended requirements, and flag gaps, distortions, invented content, and inconsistencies that would distort implementation correctness. Produces a JSON scorecard plus a Markdown report and a verdict (PROCEED / REVIEW_RECOMMENDED / BLOCK) used to decide whether a BA/PO must review before implementation. Use after GitHub Spec Kit generates spec.md and before code generation. Runs non-interactively — asks no questions.
 ---
 
 # Spec Check
 
-Compare a generated `specify.md` against the requirements it was derived from, score the match, and emit a verdict that gates implementation.
+Compare a generated `spec.md` against the requirements it was derived from, score the match, and emit a verdict that gates implementation.
 
-This skill is **read-only and reporting-only**. It never edits `specify.md`, the ticket, or any requirements document. It never fixes issues — it surfaces them with evidence so a human can decide. It runs **non-interactively**: it asks no questions and makes no assumptions beyond what the inputs state; uncertainty is reported, not resolved.
+This skill is **read-only and reporting-only**. It never edits `spec.md`, the ticket, or any requirements document. It never fixes issues — it surfaces them with evidence so a human can decide. It runs **non-interactively**: it asks no questions and makes no assumptions beyond what the inputs state; uncertainty is reported, not resolved.
 
 ## Inputs
 
 Resolve these before scoring. Paths/refs are passed as arguments or taken from the pipeline context.
 
 ### Inputs
-- **Subject under review:** `specify.md` (the GitHub Spec Kit output).
+- **Subject under review:** `spec.md` (the GitHub Spec Kit output).
 - **Direct parents (authoritative for intended behavior):**
   - The **implementation ticket / Work Item (WI-xxx)** the spec was generated from.
   - The **feature requirement document** that fed the ticket (in `features/<feature>/`).
@@ -23,9 +23,10 @@ Resolve these before scoring. Paths/refs are passed as arguments or taken from t
   - `GLOSSARY.md` — canonical terminology.
   - `PERSONAS.md` — personas and IDs (`P-xx`) for traceability.
   - Figma / design system references (if applicable) — for UI/UX consistency.
+  Note: mode input documentes can be provided in certain cases when needed.
 
 
-If any **direct parent** (specify.md, ticket, or feature doc) cannot be loaded, stop and emit verdict `BLOCKED_INPUT_MISSING` naming the missing input. Missing global-context files degrade the relevant category to a capped score and are recorded as findings — they do not abort the run.
+If any **direct parent** (spec.md, ticket, or feature doc) cannot be loaded, stop and emit verdict `BLOCKED_INPUT_MISSING` naming the missing input. Missing global-context files degrade the relevant category to a capped score and are recorded as findings — they do not abort the run.
 
 ## Process
 
@@ -37,24 +38,24 @@ Load every input above. When two authoritative sources conflict with each other,
 
 From the ticket and feature doc, extract an **atomic requirement checklist**: every acceptance criterion, functional requirement (`FR-xxx`), referenced business rule (`BR-xxx`), persona need (`P-xx`), NFR, and explicit scope boundary. Give each a stable local index (R1, R2, …) and carry its source ID and location. This checklist is the backbone for coverage scoring — every item must be accounted for in step 4.
 
-### 3. Inventory what specify.md actually says
+### 3. Inventory what spec.md actually says
 
-Independently list the behaviors, entities, rules, and constraints that `specify.md` specifies. This second list is the backbone for **invention** detection: anything here that does not trace to a checklist item or global context is a candidate invented/out-of-scope element.
+Independently list the behaviors, entities, rules, and constraints that `spec.md` specifies. This second list is the backbone for **invention** detection: anything here that does not trace to a checklist item or global context is a candidate invented/out-of-scope element.
 
 ### 4. Classify every item (evidence required)
 
 Cross-reference the two lists. Classify each checklist item and each spec element as exactly one of:
 
 ### Classifications
-- **Covered** — present in specify.md and faithful to intent.
+- **Covered** — present in spec.md and faithful to intent.
 - **Partial** — present but incomplete, weakened, or under-specified.
-- **Missing** — required by inputs, absent from specify.md.
+- **Missing** — required by inputs, absent from spec.md.
 - **Distorted** — present but contradicts, alters, or misrepresents the intended requirement (wrong threshold, inverted rule, changed scope, altered persona/permission).
-- **Invented** — present in specify.md with no basis in any input (hallucinated behavior, scope creep, fabricated AC, invented entity/rule).
-- **Inconsistent** — violates glossary terms, persona IDs, business rules, or contradicts another part of specify.md.
+- **Invented** — present in spec.md with no basis in any input (hallucinated behavior, scope creep, fabricated AC, invented entity/rule).
+- **Inconsistent** — violates glossary terms, persona IDs, business rules, or contradicts another part of spec.md.
 
 
-**Every classification that is not "Covered" becomes a finding, and every finding MUST cite evidence** — a short quote and location from the source AND from specify.md (or "absent"). Do not record a finding you cannot cite. Do not infer intent the inputs do not state; if the spec is ambiguous, classify as Partial and say what is unclear, rather than guessing.
+**Every classification that is not "Covered" becomes a finding, and every finding MUST cite evidence** — a short quote and location from the source AND from spec.md (or "absent"). Do not record a finding you cannot cite. Do not infer intent the inputs do not state; if the spec is ambiguous, classify as Partial and say what is unclear, rather than guessing.
 
 ### 5. Score, rate severity, and decide the verdict
 
@@ -64,6 +65,17 @@ Score each rubric category 0–100, compute the weighted overall, assign a sever
 
 Write the JSON scorecard and the Markdown report (schemas below). Output both; modify nothing else. The JSON is the contract your gating framework consumes; the Markdown is for the BA/PO.
 
+### 7. Save the outputs
+
+Save both outputs in the same feature folder as the `spec.md` under review, so each spec carries its own scorecard:
+
+- `spec-check.json` — the machine-readable scorecard (consumed by the gating framework).
+- `spec-check.md` — the human-readable report (for the BA/PO).
+
+Re-running the check overwrites these two files in place (the run is idempotent). Write only these files — never modify `spec.md` or any source document.
+
+
+
 ---
 
 ## Scoring rubric
@@ -71,7 +83,7 @@ Write the JSON scorecard and the Markdown report (schemas below). Output both; m
 Per-category 0–100. Overall = weighted sum (weights tunable by the team; defaults below sum to 100).
 
 ### Scoring-rubric
-| Category | Weight | Scores how well specify.md… |
+| Category | Weight | Scores how well spec.md… |
 |---|---|---|
 | Completeness / Coverage | 25 | represents every requirement, AC, FR, and referenced BR from the ticket and feature doc (penalize Missing/Partial) |
 | Fidelity / Accuracy | 20 | matches intent without distortion, weakening, or contradiction (penalize Distorted) |
@@ -156,7 +168,7 @@ Bands and weights are defaults — keep them in one place so the team can calibr
       "severity": "critical | major | minor",
       "requirement_ref": "<R3 / FR-012 / BR-004 / P-01 / ticket-AC2>",
       "evidence_source": "<short quote + location in ticket/feature/PRD/glossary>",
-      "evidence_spec": "<short quote + location in specify.md, or 'absent'>",
+      "evidence_spec": "<short quote + location in spec.md, or 'absent'>",
       "comment": "<what is wrong and why it matters for implementation>",
       "recommendation": "<what a BA/PO should add, correct, or remove>"
     }
@@ -176,7 +188,7 @@ Every entry in `findings[]` must carry non-empty `evidence_source` and `evidence
 # Spec Check Report — <feature / WI-xxx>
 
 **Verdict:** <PROCEED ✅ | REVIEW_RECOMMENDED ⚠ | BLOCK ⛔>  ·  **Overall:** <score>/100
-**Subject:** specify.md (<ref>)  ·  **Generated:** <timestamp>
+**Subject:** spec.md (<ref>)  ·  **Generated:** <timestamp>
 **Gating reason:** <rule that decided the verdict>
 
 ## Scorecard
@@ -220,12 +232,12 @@ Every entry in `findings[]` must carry non-empty `evidence_source` and `evidence
 
 <!-- <principles> -->
 - **Evidence or it didn't happen.** No finding without a citation from both sides. This is the main guard against the checker inventing its own issues.
-- **Report, never fix.** Do not edit specify.md or requirements. Output analysis only.
+- **Report, never fix.** Do not edit spec.md or requirements. Output analysis only.
 - **Conservative scoring.** When intent is ambiguous, prefer Partial + a finding over assuming Covered. Deduct when unsure.
 - **Deterministic rubric.** Use the fixed categories, weights, severities, and bands above so two runs on the same inputs land on the same verdict. Keep tunables in the rubric/bands blocks only.
 - **Separate the two passes.** Build the requirement checklist (step 2) and the spec inventory (step 3) independently before cross-referencing, so gaps and inventions are both caught.
-- **Don't reward verbosity.** Extra detail in specify.md that isn't traceable to inputs lowers the Absence-of-invention score; it is not a bonus.
-- **Stay in lane.** This skill judges fidelity of specify.md to its inputs. It does not judge whether the original requirements are themselves good — that is the BA/PO's job upstream.
+- **Don't reward verbosity.** Extra detail in spec.md that isn't traceable to inputs lowers the Absence-of-invention score; it is not a bonus.
+- **Stay in lane.** This skill judges fidelity of spec.md to its inputs. It does not judge whether the original requirements are themselves good — that is the BA/PO's job upstream.
 <!-- </principles> -->
 
 ## Process-reliability recommendations (for the team's framework)
