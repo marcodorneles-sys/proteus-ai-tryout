@@ -1,6 +1,6 @@
 Status: ready-for-agent
 
-# 08 — Bulk reclassification
+# 08 — Bulk Reclassification
 
 ## Parent
 
@@ -8,22 +8,35 @@ Status: ready-for-agent
 
 ## What to build
 
-Reduce repetitive entry. The operator selects several Uncovered or Partially
-Covered `Machine Stops` and applies one `Reason` to all of them in a single
-action, producing one `Downtime` per selected stop. `Machine Stops` have no type
-of their own; the `Reasons` offered for a bulk action are the **intersection** of
-each selected stop's eligible set (from the Reason Eligibility Filter), so the
-single chosen `Reason` is valid for every selected stop.
+Let an operator select multiple `Machine Stops` and apply a single `Reason` to
+all of them in one action. Each selected stop gets its own `Downtime`; the
+operator picks one `Reason` from the intersection of eligible Reasons across all
+selected stops.
+
+End-to-end scope:
+- **API**: `POST /bulk-reclassify` endpoint. Accepts a list of stop IDs and a
+  single `Reason`. Validates via Reason Eligibility Filter (intersection mode)
+  and Writable Window Policy. Writes one `Downtime` and one `Human-input Record`
+  per stop. Atomic — all succeed or none do.
+- **UI**: multi-stop selection mode on the timeline; Reason picker shows only
+  the intersection of eligible Reasons across all selected stops; if the
+  intersection is empty, the picker communicates that no shared Reason is
+  available and prevents confirmation.
+
+Grouping is operator-driven — no system-enforced "same type" constraint.
 
 ## Acceptance criteria
 
-- [ ] An operator can select multiple Uncovered / Partially Covered `Machine Stops`.
-- [ ] The offered `Reasons` are the intersection of each selected stop's eligible set.
-- [ ] An empty intersection offers no `Reason` and the bulk action is not possible.
-- [ ] Applying one `Reason` produces one `Downtime` per selected stop.
-- [ ] Each resulting stop reflects its new coverage.
-- [ ] Tests cover the intersection (including empty) and one-Downtime-per-stop output.
+- [ ] Selecting multiple stops and confirming a Reason creates one Downtime per
+      stop and one Human-input Record per stop.
+- [ ] The Reason picker shows only the intersection of eligible Reasons across all
+      selected stops.
+- [ ] If the intersection is empty, the picker communicates this and blocks confirmation.
+- [ ] The bulk write is atomic: if any stop write fails, no records are committed.
+- [ ] All selected stops drop off the outstanding work list and render as Covered.
+- [ ] Bulk action is rejected at the API if any selected stop falls outside the
+      Writable Window Policy.
 
 ## Blocked by
 
-- [03 — Reason eligibility filtering](./03-reason-eligibility-filtering.md)
+- [05 — Reclassify a single stop end-to-end](05-reclassify-single-stop.md)

@@ -41,6 +41,13 @@ To withdraw a Downtime so it is no longer effective, re-exposing the underlying
 Machine Stop as Uncovered. Voiding never deletes the Machine Stop.
 _Avoid_: Delete, remove, cancel
 
+**Ignore**:
+An operator action that marks a Machine Stop as a false trigger, excluding it
+from KPI output. The Machine Stop is retained; the KPI engine recalculates
+without it. Distinct from Void — Void withdraws a Downtime the operator created;
+Ignore acts directly on an Uncovered Machine Stop that has no Downtime over it.
+_Avoid_: Suppress, exclude, dismiss
+
 **Long Lasting**:
 A flag on a Downtime used when a machine is broken and the fix time is unknown,
 extending the Downtime alongside the underlying machine state. Rendered as an
@@ -56,11 +63,11 @@ of it), or Covered (Downtime over all of it). Uncovered and Partially Covered
 red is what the operator must still act on.
 _Avoid_: Overlap, mapping
 
-**Correction Record**:
-The latest effective version of a Downtime. The timeline renders as-now — only
-the most recent Correction Record per Downtime is drawn; voided and superseded
-versions are not.
-_Avoid_: Revision, edit, version
+**Human-input Record**:
+A durable, append-only write produced whenever an operator acts on a Machine Stop
+(classify, bulk-classify, or ignore). The timeline renders as-now — only the latest
+effective Human-input Record per stop is drawn; voided and superseded records are not.
+_Avoid_: Correction Record, revision, edit, version
 
 **Shift Handover Window**:
 A brief, configurable window after a shift ends during which the previous

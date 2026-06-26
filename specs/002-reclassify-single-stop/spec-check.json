@@ -1,0 +1,141 @@
+{
+  "skill": "spec-check",
+  "version": "1.0",
+  "generated_at": "2026-06-26T13:13:49Z",
+  "subject": {
+    "specify_md": "specs/002-reclassify-single-stop/spec.md"
+  },
+  "inputs": {
+    "ticket": ".scratch/downtime-reclassification/issues/05-reclassify-single-stop.md",
+    "feature_doc": "docs/domain/features/downtime_reclassification.md",
+    "prd": "docs/domain/PRD.md",
+    "glossary": "docs/domain/GLOSSARY.md",
+    "personas": "docs/domain/PERSONAS.md",
+    "business_rules": null,
+    "feature_inventory": "docs/domain/features/FEATURE_INVENTORY.md"
+  },
+  "coverage": {
+    "total_requirements": 15,
+    "covered": 10,
+    "partial": 4,
+    "missing": 1,
+    "distorted": 0,
+    "invented": 1,
+    "inconsistent": 0
+  },
+  "categories": [
+    {
+      "name": "Completeness / Coverage",
+      "weight": 25,
+      "score": 82,
+      "comment": "Core WI-05 behaviors are mostly present (create overlay + human-input record, cancel no-op, race handling, ineligible rejection, immutable machine stop). Coverage is reduced by partial carry-over of orchestration/dependency constraints and role/window detail from feature context, plus one missing explicit traceability mapping to source IDs/personas."
+    },
+    {
+      "name": "Fidelity / Accuracy",
+      "weight": 20,
+      "score": 88,
+      "comment": "The spec preserves key intent from the ticket and F-01.1 context: append-only human input model and no mutation of machine data are represented faithfully. Accuracy is reduced by under-specification of explicit retention and dependency/orchestration framing stated in source materials."
+    },
+    {
+      "name": "Absence of invention",
+      "weight": 15,
+      "score": 80,
+      "comment": "Most content traces cleanly to WI-05 and feature context. The success criteria introduce several un-sourced numeric targets (e.g., 95% in 30 seconds; multiple 100% thresholds) that are not present in ticket/feature/PRD inputs, creating measurable but untraceable additions."
+    },
+    {
+      "name": "Consistency & terminology",
+      "weight": 10,
+      "score": 82,
+      "comment": "Terminology is largely aligned (Machine Stop, human-input record, reclassify, covered/uncovered). Score is lowered because canonical BR source is unavailable in this repo snapshot and the spec does not reference BR IDs or concern-specific rule anchors, limiting consistency verification against cross-cutting rules."
+    },
+    {
+      "name": "Traceability",
+      "weight": 10,
+      "score": 75,
+      "comment": "The spec uses internal FR numbering, but does not map requirements back to parent source IDs (F-01.1, WI-05 ACs) or personas by ID (P-01/P-02a), despite traceability expectations in PRD/persona governance. This weakens downstream gap-check reliability."
+    },
+    {
+      "name": "Testability & clarity",
+      "weight": 10,
+      "score": 90,
+      "comment": "User stories and FRs are generally testable and clear, with explicit race/cancel/eligibility behaviors and outcomes. Minor deductions for a few partially bounded constraints (dependency orchestration and role/window specificity) that may require BA confirmation before implementation."
+    },
+    {
+      "name": "NFR & security/permission coverage",
+      "weight": 10,
+      "score": 70,
+      "comment": "This category is capped due to missing canonical NFR/security/business-rule files in workspace context (per PRD concern-precedence model). Within available inputs, audit identity/timestamp are captured, but explicit retention requirement (>=12 months) is not carried into the spec."
+    }
+  ],
+  "overall_score": 82,
+  "verdict": "REVIEW_RECOMMENDED",
+  "gating_reason": "Verdict band 4: overall score 60-84 and Major findings present.",
+  "findings": [
+    {
+      "id": "F-001",
+      "category": "Traceability",
+      "type": "missing",
+      "severity": "major",
+      "requirement_ref": "R14 / F-01.1 / WI-05",
+      "evidence_source": "PRD requires ID-chain traceability ('Module -> Feature -> FR -> Work Item -> specify.md') and gap-check mapping (docs/domain/PRD.md:55, docs/domain/PRD.md:65). Personas requires FR/AC trace to persona IDs (docs/domain/PERSONAS.md:4).",
+      "evidence_spec": "Spec has FR-001..FR-013 but no source ID mapping or persona IDs (specs/002-reclassify-single-stop/spec.md:69, specs/002-reclassify-single-stop/spec.md:81).",
+      "comment": "Without explicit mapping to F-01.1/WI-05 ACs and persona IDs, downstream completeness checks can miss drift or omissions.",
+      "recommendation": "Add a traceability section mapping each FR to WI-05 AC item(s), F-01.1, and persona IDs (at minimum P-01; include P-02a scope note if intended)."
+    },
+    {
+      "id": "F-002",
+      "category": "Completeness / Coverage",
+      "type": "partial",
+      "severity": "major",
+      "requirement_ref": "R11",
+      "evidence_source": "Ticket defines orchestrator dependency path: 'Reclassification Service ... calling Coverage Engine (01), Reason Eligibility Filter (02), and Writable Window Policy (03)' (.scratch/downtime-reclassification/issues/05-reclassify-single-stop.md:26).",
+      "evidence_spec": "Spec only carries this as assumption ('policies already exist') rather than a requirement/dependency contract (specs/002-reclassify-single-stop/spec.md:104).",
+      "comment": "Dependencies are present but under-specified as assumptions, which weakens enforceable behavior when implementing the slice.",
+      "recommendation": "Promote dependency/orchestration expectation into explicit requirements or dependency constraints section tied to WI blockers 01/02/03."
+    },
+    {
+      "id": "F-003",
+      "category": "NFR & security/permission coverage",
+      "type": "partial",
+      "severity": "major",
+      "requirement_ref": "R12 / F-07.3",
+      "evidence_source": "Feature doc requires audit traceability and retention: 'every human-input record is traceable to user and timestamp (>=12-month retention, per F-07.3)' (docs/domain/features/downtime_reclassification.md:81). Feature inventory marks F-07.3 critical with >=12-month retention (docs/domain/features/FEATURE_INVENTORY.md:128).",
+      "evidence_spec": "Spec retains actor identity/timestamp but omits retention duration (specs/002-reclassify-single-stop/spec.md:81).",
+      "comment": "Implementation could pass feature tests while missing mandated audit-retention behavior.",
+      "recommendation": "Add an explicit requirement carrying retention duration and audit immutability expectations for human-input records."
+    },
+    {
+      "id": "F-004",
+      "category": "Absence of invention",
+      "type": "invented",
+      "severity": "major",
+      "requirement_ref": "R-INV-01",
+      "evidence_source": "Ticket/feature inputs do not provide numeric targets for task time or absolute success percentages for this slice (see WI acceptance list and feature narrative: .scratch/downtime-reclassification/issues/05-reclassify-single-stop.md:35, docs/domain/features/downtime_reclassification.md:42).",
+      "evidence_spec": "Spec adds unreferenced metrics: '95% ... in 30 seconds' and multiple '100%' targets (specs/002-reclassify-single-stop/spec.md:95, specs/002-reclassify-single-stop/spec.md:99).",
+      "comment": "These numbers may be useful but are currently untraceable and could become accidental commitments.",
+      "recommendation": "Either cite authoritative source for each threshold or replace with source-traceable, non-fabricated success outcomes."
+    },
+    {
+      "id": "F-005",
+      "category": "Consistency & terminology",
+      "type": "partial",
+      "severity": "minor",
+      "requirement_ref": "R15",
+      "evidence_source": "Feature states operators should see standardized human-readable reasons and not raw PLC codes (docs/domain/features/downtime_reclassification.md:45).",
+      "evidence_spec": "Spec requires eligible reasons but does not explicitly state suppression of raw PLC code display (specs/002-reclassify-single-stop/spec.md:70).",
+      "comment": "UX behavior is likely intended but not explicit, which can lead to inconsistent UI implementations.",
+      "recommendation": "Add explicit wording that operator-facing reason selection uses human-readable standardized reasons and excludes raw PLC reason codes."
+    },
+    {
+      "id": "F-006",
+      "category": "NFR & security/permission coverage",
+      "type": "missing",
+      "severity": "major",
+      "requirement_ref": "Global context: BUSINESS_RULES/NFR/SECURITY",
+      "evidence_source": "PRD concern precedence points to canonical cross-cutting rules and NFR/security sources for conflict resolution (docs/domain/PRD.md:44, docs/domain/PRD.md:49). These files are not present in this workspace path set.",
+      "evidence_spec": "Spec has no BR/NFR/SECURITY references and cannot be fully checked against missing canonical files (specs/002-reclassify-single-stop/spec.md:65).",
+      "comment": "Review confidence for permissions, policy constraints, and NFR/security carry-over is limited by missing canonical inputs.",
+      "recommendation": "Provide canonical BUSINESS_RULES.md and SECURITY/NFR artifacts (or approved equivalents) and rerun spec-check for full confidence before implementation gating."
+    }
+  ]
+}

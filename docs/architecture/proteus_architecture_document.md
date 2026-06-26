@@ -326,7 +326,7 @@ Avoid hard deletes for critical business data. Prefer:
 
 - soft delete
 - status exclusion
-- correction records
+- human-input records
 - audit history
 
 Define insert/update/correct/delete/restore/post-lock mutation rules.

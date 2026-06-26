@@ -638,7 +638,7 @@ Business-critical mutations must be auditable.
 
 Generated implementation should avoid hard deletes where audit, reporting, KPI, compliance, or reconciliation needs exist.
 
-Use soft delete, correction records, status transitions, or before/after audit trails where appropriate.
+Use soft delete, human-input records, status transitions, or before/after audit trails where appropriate.
 
 ---
 

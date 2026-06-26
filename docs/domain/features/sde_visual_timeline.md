@@ -34,7 +34,7 @@ One machine per timeline. The persona driving this feature (P-01) works at a kio
 *   **Data Freshness Indicator:** The timeline never invents runtime for periods MDC has not reported on:
     *   A **Last MDC Sync** marker (timestamp + visual cue) shows how recent the underlying machine-state data is, anchored to the [MDC Sync Watermark](../../../CONTEXT.md) for the displayed machine.
     *   Any portion of the visible window after that watermark is rendered as a distinct **unknown** state — visually different from both green (ran) and red (Stop). Silence is not treated as runtime.
-*   **As-Now Rendering Only:** The timeline always shows the **latest effective state** of Downtimes for the visible window — i.e. the most recent [Correction Record](../../../CONTEXT.md) per Downtime. Voided Downtimes are not drawn, and earlier versions of corrected Downtimes are not drawn. Audit / as-of-T reconstruction is a separate concern owned by a different feature, not by this timeline.
+*   **As-Now Rendering Only:** The timeline always shows the **latest effective state** of Downtimes for the visible window — i.e. the most recent [Human-input Record](../../../CONTEXT.md) per stop. Voided Downtimes are not drawn, and earlier versions of corrected Downtimes are not drawn. Audit / as-of-T reconstruction is a separate concern owned by a different feature, not by this timeline.
 
 ## Dependencies / Adjacent Features
 The timeline is rendered inside an SDE shell that surfaces additional context (e.g. the current production order). That context is sourced from a different system and owned by a separate feature; this feature is responsible only for the timeline itself.

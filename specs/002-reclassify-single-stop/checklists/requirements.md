@@ -1,7 +1,7 @@
-# Specification Quality Checklist: Reclassify a Single Stop, Creating a Downtime
+# Specification Quality Checklist: Reclassify a Single Stop End-to-End
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
-**Created**: 2026-06-23
+**Created**: 2026-06-26
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
@@ -31,6 +31,5 @@
 
 ## Notes
 
-- Items marked incomplete require spec updates before `/speckit.clarify` or `/speckit.plan`
-- Validation passed on first iteration. Scope is deliberately narrowed to single whole-stop classification; adjacent concerns (eligibility, partial coverage, correction/void, writable window, Long Lasting) are explicitly deferred to sibling issues 03–07 and recorded under Assumptions.
-- The spec leans on the shared glossary in CONTEXT.md rather than redefining terms, keeping it free of implementation detail.
+- Validation iteration 1: all checklist items passed.
+- No unresolved clarification markers remain; specification is ready for `/speckit.clarify` (optional) or `/speckit.plan`.

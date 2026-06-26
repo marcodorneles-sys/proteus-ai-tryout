@@ -1,4 +1,4 @@
-# User Personas — Project Proteus (GSCA Machinery & QSens)
+# User Personas — Project Unicorn (GSCA Machinery & QSens)
 
 **Version:** 1.4 (24 June 2026) | **Source:** User_Personas_v1_4.docx  
 **Purpose:** AI context for feature spec generation (/grill-with-docs, /to-prd, GitHub Spec Kit). Every functional requirement and acceptance criterion must be traceable to at least one persona listed here. Refer to personas by ID (e.g., `P-01`) in specs and ACs.
@@ -400,7 +400,7 @@ These rules override anything in individual persona sections and must be enforce
 
 ## User and Permission Management Model
 
-**Architecture.** One AD security group maps one-to-one to one Proteus business role type scoped to a factory (or global). A user may belong to multiple AD groups (e.g., a small-factory analyst may hold P-02a + P-02b + P-03a simultaneously). Users with no AD group linked to Proteus receive no access and are shown a prompt to request access via IT portal.
+**Architecture.** One AD security group maps one-to-one to one Unicorn business role type scoped to a factory (or global). A user may belong to multiple AD groups (e.g., a small-factory analyst may hold P-02a + P-02b + P-03a simultaneously). Users with no AD group linked to Unicorn receive no access and are shown a prompt to request access via IT portal.
 
 **Provisioning channels.** Each business role type has two AD groups:
 - **Birthright** — auto-provisioned based on employee attributes (country, department, org hierarchy). Automation removes members who no longer meet criteria; manual additions must not be mixed into this group.
