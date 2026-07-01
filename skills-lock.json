@@ -23,7 +23,7 @@
       "source": "marcodorneles-sys/ai-framework",
       "sourceType": "github",
       "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
-      "computedHash": "7c212cee6a823b956aaec7dff2a846814fe9986caa2e62313734010c7bd3db70"
+      "computedHash": "30998ea7583f2c2ed5dcfc02203cbe991fd453c7f0d59fc29ec979ba12279b1c"
     },
     "handoff": {
       "source": "marcodorneles-sys/ai-framework",
@@ -35,7 +35,7 @@
       "source": "marcodorneles-sys/ai-framework",
       "sourceType": "github",
       "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
-      "computedHash": "5d9444ffe5c240f2d20081c42c547112e1b8c372375a14e4c98df4d94bde11e1"
+      "computedHash": "25a436040c58aba15985884dfa3fa6120337d72e780be2f2dcf5ef3914556510"
     },
     "prototype": {
       "source": "marcodorneles-sys/ai-framework",
@@ -47,13 +47,25 @@
       "source": "marcodorneles-sys/ai-framework",
       "sourceType": "github",
       "skillPath": "skills/engineering/setup-ai-framework/SKILL.md",
-      "computedHash": "df891478039886212741cf09dbae54c47e483b6eda197210622b0e00059bc816"
+      "computedHash": "2a3c79c7170c66f9c929bbccc2fcf0790e07c42c7ad7963b76d9dd3a6c70aca8"
+    },
+    "spec-check": {
+      "source": "marcodorneles-sys/ai-framework",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/spec-check/SKILL.md",
+      "computedHash": "e829fe5056c677cb27722b741423faf064642fd492b22187347f5ec3fa5f82af"
     },
     "tdd": {
       "source": "marcodorneles-sys/ai-framework",
       "sourceType": "github",
       "skillPath": "skills/engineering/tdd/SKILL.md",
       "computedHash": "78b31b2120c5fe7aced1cebfd4c7c94acb0037fd4f89c83c67584414aa4173bd"
+    },
+    "to-frd": {
+      "source": "marcodorneles-sys/ai-framework",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/to-frd/SKILL.md",
+      "computedHash": "0082b4a286a855d913dfa2b3acc366ba23306fa07e9137acfed48f5ce476911e"
     },
     "to-issues": {
       "source": "marcodorneles-sys/ai-framework",
