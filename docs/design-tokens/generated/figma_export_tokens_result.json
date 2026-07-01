@@ -1,0 +1,8 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"_mcp\":\"figma-console-mcp\",\"success\":true,\"mode\":\"written\",\"configFound\":true,\"configPath\":\"/Users/stevenroberts/Documents/Dev-Work/proteus-ai-tryout/tokens.config.json\",\"collections\":[{\"name\":\"1. TailwindCSS\",\"modes\":[\"Default\"],\"tokenCount\":496,\"figmaCollectionId\":\"VariableCollectionId:1:2\"},{\"name\":\"2. Theme\",\"modes\":[\"Default\"],\"tokenCount\":252,\"figmaCollectionId\":\"VariableCollectionId:1:412\"},{\"name\":\"3. Mode\",\"modes\":[\"Dark\",\"Light\"],\"tokenCount\":86,\"figmaCollectionId\":\"VariableCollectionId:1:444\"},{\"name\":\"4. Custom\",\"modes\":[\"Desktop\",\"Mobile\"],\"tokenCount\":26,\"figmaCollectionId\":\"VariableCollectionId:17548:88924\"},{\"name\":\"5. Icon Library\",\"modes\":[\"Default\"],\"tokenCount\":5,\"figmaCollectionId\":\"VariableCollectionId:21003:91179\"}],\"outputs\":[{\"writtenTo\":\"/Users/stevenroberts/Documents/Dev-Work/proteus-ai-tryout/docs/design-tokens/generated/design-system.tokens.json\"}],\"warnings\":[]}"
+    }
+  ]
+}
