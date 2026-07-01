@@ -2,6 +2,10 @@
 ## Overview
 The Smart Downtime Entry (SDE) module is the primary interface used by shop-floor operators (Persona P-01) and Process Leads (Persona P-02) to manage machine downtime, actual speeds, and rejects. Designed for noisy and demanding industrial environments via shared kiosk terminals, the UI prioritizes wizard-like, step-by-step patterns over complex web forms to minimize friction.
 
+# Global Reference
+Reference to the global specification
+path: docs\domain\PRD.md
+
 # Persona Reference
 path: docs\domain\personas.md
 
